@@ -2,22 +2,23 @@
 using namespace std;
 #define int long long
 mt19937 rng((unsigned int)chrono::steady_clock::now().time_since_epoch().count());
-class Treap
+class ImplicitTreap
 {
 
     struct Raimund
     {
-        Raimund(int key)
+        Raimund(int value)
         {
+            this->value = value;
             this->left = nullptr;
             this->right = nullptr;
-            this->key = key;
             this->priority = rng();
             this->kuch_to_pass_karaungi();
         }
         Raimund *left, *right;
-        int key, priority;
+        int priority;
         int cnt;
+        int value;
         void kuch_to_pass_karaungi()
         {
             cnt = 1;
@@ -27,11 +28,14 @@ class Treap
     };
     Raimund *ultra;
 
-    Treap()
+    ImplicitTreap()
     {
         this->ultra = nullptr;
     }
 
+    void findKey(Raimund *node)
+    {
+    }
     void split(Raimund *root, int key, Raimund *&l, Raimund *&r)
     {
         if (root == nullptr)
@@ -40,7 +44,8 @@ class Treap
             r = nullptr;
             return;
         }
-        if (key < root->key)
+        int rootKey = (root->left ? root->left->cnt : 0) + 1;
+        if (key < rootKey)
         {
             Raimund *splitL, *splitR;
             split(root->left, key, splitL, splitR);
@@ -80,9 +85,9 @@ class Treap
     }
 
 public:
-    void insert(int key)
+    void insert(int key, int value)
     {
-        Raimund *toInsert = new Raimund(key);
+        Raimund *toInsert = new Raimund(value);
         Raimund *left, *right;
         split(ultra, key, left, right);
         ultra = merge(left, toInsert);
@@ -108,8 +113,3 @@ public:
         return ans;
     }
 };
-
-/*
-key ke about split
-
-*/
