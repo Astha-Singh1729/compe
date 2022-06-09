@@ -9,7 +9,7 @@ struct SegTreeItem
 
 class LazySegTree
 {
-  public:
+public:
     LazySegTree(int n)
     {
         this->nodes.resize(4 * n + 5, this->null);
@@ -59,17 +59,9 @@ class LazySegTree
             return nodes[index];
         return merge(query(x, y, 2 * index, l, (r + l) / 2), query(x, y, 2 * index + 1, (r + l) / 2, r));
     }
-    void pointUpdate(int x, SegTreeItem val)
-    {
-        pointUpdate(x, val, 1, 0, size);
-    }
     void pointUpdate(int x, int val)
     {
         pointUpdate(x, {val}, 1, 0, size);
-    }
-    void rangeUpdate(int x, int y, SegTreeItem val)
-    {
-        rangeUpdate(x, y, val, 1, 0, size);
     }
     void rangeUpdate(int x, int y, int val)
     {
@@ -80,7 +72,7 @@ class LazySegTree
         return query(x, y, 1, 0, size);
     }
 
-  private:
+private:
     vector<SegTreeItem> nodes, lazy;
     vector<bool> pendingLazy;
     SegTreeItem null = {0};
@@ -129,9 +121,8 @@ void solveCase()
             lf--;
 
             int pref = st.query(0, lf).element;
-            const auto calc = [&](int x) -> int {
-                if (x == n)
-                    return abs(pref - st.query(lf, x).element);
+            const auto calc = [&](int x) -> int
+            {
                 return abs(pref + st.query(x, n).element - st.query(lf, x).element);
             };
 
